@@ -1,0 +1,12 @@
+<RCC>
+<qresource>
+    <file>../picture/backG.png</file>
+    <file>../picture/button.gif</file>
+    <file>../picture/face.png</file>
+    <file>../picture/loading.gif</file>
+    <file>../picture/qrbackG.gif</file>
+    <file>../picture/test.png</file>
+    <file>../picture/umbarller.jpg</file>
+    <file>../picture/unlock.png</file>
+</qresource>
+</RCC>
