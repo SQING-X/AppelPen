@@ -1,21 +1,15 @@
-'''
-Todo:
-    每个连接都需要一个新的进程或者新的线程来处理--got
-    日志缓存
-    实现持久化登录--got
-    数据统计报表
-    事先把uuid写入到树莓派，然后扫码绑定--got
-'''
-
+# -*- coding:utf-8 -*-
+# author: @sqingX
 
 import json
 import paho.mqtt.client as mqtt
-
+import ctypes
 import requests
 import sqlite3
 import datetime
 import threading
 import time
+import os
 from utils import qr
 from queue import Queue
 from utils.constants import const
@@ -49,33 +43,77 @@ def on_message(client,userdata,msg):
     ''' 消息推送的回调程序 '''
     ## 不加client,userdata,接受不到消息，为啥嘞
     if msg.topic == "UnLock":
-        print("qqq")
         json_datas = json.loads(msg.payload.decode("gbk"))
         msg_list.put(json_datas)
-
-        # evt.set()
-        print("发送数据到另一个线程")
+        #
+        # # evt.set()
+        # print("发送数据到另一个线程")
 
 # {"from":"pi","lock_uuid":"afba5de8-94e9-11e9-8ccd-d510df66620f"}
 
-def make_qr(lock_uuid):
-    # 本地不做存储，只在前端做验证，符合条件给予放行
+# 线程创建器
+def make_thread_for_msg(msg_list):
+
+    global handle_msg
+    i = 0
+    while True:
+        if msg_list:
+            json_data = msg_list.get()
+            if json_data["from"] == "pi":
+                handle_msg = threading.Thread(target=make_qr,args=(json_data,))
+            else:
+                handle_msg = threading.Thread(target=face_unlock, args=(json_data,))
+            handle_msg.start()
+            print(i)
+            i += 1
+
+def face_unlock(json_data):
+    '''
+    unlock msg format from phone
+    :param json_data:
+    :return:
+    '''
+    lock_uuid = json_data["lock_uuid"]
+    if json_data["action"] == "yes_unlock":
+        # 扫描二维码以后收到的消息
+        qr_unlock_msg = {"action":"yes_unlock","user_img":None,"simla":None}
+        client.publish(lock_uuid, json.dumps(qr_unlock_msg).encode("utf-8"), 2)
+    else:
+        # 手机解锁收到的消息
+        print('开始人脸比较')
+        face1 = json_data["face_data_1"]
+        face2 = json_data["face_data_2"]
+        token = json_data["token"]
+        isUnlock, simlarity = compareface(face1, face2)
+        if isUnlock:
+            print("解锁成功:" + str(simlarity))
+            UNLOCKSUCCESS = {"action":"yes_unlock","user_img":face1,"simla":simlarity}
+            client.publish(lock_uuid, json.dumps(UNLOCKSUCCESS).encode("utf-8"), 2)
+            client.publish(token,json.dumps(UNLOCKSUCCESS).encode("utf-8"),2)
+            log_lock_to_base(lock_uuid)
+            print("执行发送")
+        else:
+            UNLOCKFAIL = {"action":"no_unlock","simla":simlarity}
+            client.publish(token, json.dumps(UNLOCKFAIL).encode("gbk"), 2)
+            print("解锁失败")
+
+def make_qr(json_data):
     print("制作二维码")
+    # 本地不做存储，只在前端做验证，符合条件给予放行
+    lock_uuid = json_data["lock_uuid"]
     conn = sqlite3.connect(const.DBNAME)
     cusor = conn.cursor()
     sql = "select token from user where lock_uuid = '{}'".format(lock_uuid)
     temp = cusor.execute(sql).fetchall()
     conn.close()
-    print(temp)
     if len(temp) != 0:
         qr_token = temp
         # 生成base64编码的pillow对象，虽然现在这个功能有和没有一样
         qr_img = qr.get_qr_image(lock_uuid,qr_token) # token有很多，看是谁的手机在解锁
-        print("这里这里qr")
         client.publish(lock_uuid,
                        json.dumps({"action": "show-qr", "img_data": qr_img}).encode("gbk"),
                        2)
-        log_lockk_to_base(lock_uuid)
+        # log_lock_to_base(lock_uuid)
     else:
         client.publish(lock_uuid,
                        json.dumps({"action": "show-qr", "img_data": None}).encode("gbk"),
@@ -83,7 +121,7 @@ def make_qr(lock_uuid):
 
 
 # 解锁信息写入数据库
-def log_lockk_to_base(lock_uuid):
+def log_lock_to_base(lock_uuid):
     conn = sqlite3.connect(const.DBNAME)
     cusor = conn.cursor()
     sql = "select unlocktimes from user where lock_uuid = '{}'".format(lock_uuid)
@@ -95,30 +133,6 @@ def log_lockk_to_base(lock_uuid):
     cusor.execute(sql)
     conn.commit()
     conn.close()
-# 解锁函数
-def unlock_action(msg_list):
-   while True:
-       if msg_list:
-           json_data = msg_list.get()
-           lock_uuid = json_data["lock_uuid"]
-           print(lock_uuid)
-           if json_data["from"] == "phone":
-               print('开始人脸比较')
-               face1 = json_data["image1"]
-               face2 = json_data["image2"]
-               isUnlock, simlarity = compareface(face1, face2)
-               if isUnlock:
-                   print("解锁成功:" + str(simlarity))
-                   client.publish(lock_uuid, json.dumps(const.UNLOCKSUCCESS).encode("gbk"), 2)
-                   log_lockk_to_base(lock_uuid)
-                   print("执行发送")
-               else:
-                   client.publish(lock_uuid, json.dumps(const.UNLOCKFAIL).encode("gbk"), 2)
-                   print("解锁失败")
-           else:
-               make_qr(lock_uuid)
-
-
 
 def compareface (face1, face2):
     url = "https://face.cn-north-1.myhuaweicloud.com/v1/"+const.PROJ_ID+"/face-compare"  # 在怎么来？分析Ajax请求
@@ -141,7 +155,7 @@ if __name__ == "__main__":
     PORT = const.PORT
     TIMEOUT = const.TIMEOUT
     R = threading.Thread(target=connect_mos_broker,args=(IP,PORT,TIMEOUT,))
-    P = threading.Thread(target=unlock_action,args=(msg_list,))
+    P = threading.Thread(target=make_thread_for_msg,args=(msg_list,))
     R.start()
     P.start()
     R.join()

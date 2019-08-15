@@ -1,3 +1,6 @@
+# -*- coding:utf-8 -*-
+# author: @sqingX
+
 import socket
 import threading
 import time
