@@ -11,8 +11,10 @@ import utils.qr as qr
 import json
 import paho.mqtt.client as mqtt
 from utils.constants import const
-
-
+# import RPi.GPIO as GPIO
+import time
+# GPIO.setmode(GPIO.BOARD)
+# GPIO.setup(11,GPIO.OUT)
 class MQThread(QThread):
     to_where_signal = pyqtSignal(bytes)
 
@@ -77,12 +79,13 @@ class WaittingScreen(QWidget):
         # 先初始化两个定时器
         self.timer_unlock = QTimer(self)
         self.timer_qr = QTimer(self)
+        self.timer_closedoor = QTimer(self)
 
         # 设置窗体为无边框
         self.setWindowFlags(Qt.FramelessWindowHint)
 
         # 设置窗口的位置和大小
-        self.setGeometry(100, 100, 480,320)
+        self.setGeometry(0, 0, 480,320)
         self.setObjectName("WaittingScreen")
 
         # 设置标签显示个性化信息
@@ -206,6 +209,15 @@ class WaittingScreen(QWidget):
             self.label_face.hide()
             self.label_unlocktext.hide()
 
+    # def open_the_door(self):
+    #
+    #     GPIO.output(11,GPIO.HIGH)
+    #     self.timer_closedoor.start(8000)
+    #     self.timer_closedoor.timeout.connect(self.close_the_door)
+    #
+    # def close_the_door(self):
+    #     self.timer_closedoor.stop()
+    #     GPIO.output(11,GPIO.LOW)
 
     def show_unlock(self):
         if self.timer_qr.isActive() :

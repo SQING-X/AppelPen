@@ -19,7 +19,7 @@ msg_list =Queue(maxsize=1000)
 
 def connect_mos_broker(ip,port,timeout):
     global client
-    client = mqtt.Client("cloud_server")
+    client = mqtt.Client("cloud_server——222")
     client.connect(ip,port,timeout)
     client.on_connect = on_connect
     client.on_message = on_message
@@ -74,9 +74,11 @@ def face_unlock(json_data):
     :return:
     '''
     lock_uuid = json_data["lock_uuid"]
+    print("uuid"+lock_uuid)
     if json_data["action"] == "yes_unlock":
         # 扫描二维码以后收到的消息
-        qr_unlock_msg = {"action":"yes_unlock","user_img":None,"simla":None}
+        face1 = json_data["face_data_1"]
+        qr_unlock_msg = {"action":"yes_unlock","user_img":face1,"simla":1}
         client.publish(lock_uuid, json.dumps(qr_unlock_msg).encode("utf-8"), 2)
     else:
         # 手机解锁收到的消息
@@ -101,6 +103,7 @@ def make_qr(json_data):
     print("制作二维码")
     # 本地不做存储，只在前端做验证，符合条件给予放行
     lock_uuid = json_data["lock_uuid"]
+
     conn = sqlite3.connect(const.DBNAME)
     cusor = conn.cursor()
     sql = "select token from user where lock_uuid = '{}'".format(lock_uuid)

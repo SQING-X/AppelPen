@@ -1,12 +1,17 @@
+# -*- coding:utf-8 -*-
+# author: @sqingX
+
 import qrcode
 import base64
 from PIL import Image
 from io import BytesIO
+import time
 import re
 
 def get_qr_image(qr_lock_uuid,qr_token):
     # 生成的图片大小为106 X 106
-    qr_data_added = {"lock_uuid":qr_lock_uuid,"token":qr_token}
+
+    qr_data_added = {"lock_uuid":qr_lock_uuid,"token":qr_token,"time":time.time()}
     qr = qrcode.QRCode(
       version=7,
       error_correction=qrcode.constants.ERROR_CORRECT_L,

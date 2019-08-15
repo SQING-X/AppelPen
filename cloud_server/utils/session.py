@@ -1,3 +1,6 @@
+# -*- coding:utf-8 -*-
+# author: @sqingX
+
 import sqlite3
 from utils.constants import const
 from utils import getoken
@@ -123,6 +126,7 @@ class Session(object):
         cusor = conn.cursor()
         if self.token != "":
             sql = "select * from user where token = '{}'".format(self.token)
+
             userinfo = cusor.execute(sql).fetchone()
             if userinfo:
                 self.userid = userinfo[0]

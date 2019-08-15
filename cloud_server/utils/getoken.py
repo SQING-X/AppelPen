@@ -1,3 +1,6 @@
+# -*- coding:utf-8 -*-
+# author: @sqingX
+
 import hashlib
 import time
 # 创建获取时间戳的对象

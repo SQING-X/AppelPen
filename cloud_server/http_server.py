@@ -3,8 +3,6 @@
 
 import socket
 import threading
-import time
-# import simplejson
 from utils.session import Session
 import json
 
@@ -13,7 +11,7 @@ import json
 def tcplink(sock, addr):
     print('Accept new connection from %s:%s...' % addr)
     sock.send(json.dumps({"msg":"welcome"}).encode("utf-8"))
-    while True:
+    try:
         # 一次最大接受字符个数，如果大于这个个数需要分多次传输合并成一个消息在进行处理，否则造成消息接受不完整
         data_raw = sock.recv(102400)
         if data_raw:
@@ -21,7 +19,7 @@ def tcplink(sock, addr):
             data = json.loads(data_raw.decode("utf-8"))
             print(data)
             if data["hold"] == 'exit':
-                break
+                pass
             elif data["action"] == 'sign_up':
                 payloads = Session(userid=data["userid"],passwd=data["passwd"],username=data["username"]).sign_up()
                 sock.send(json.dumps(payloads).encode("utf-8"))
@@ -39,13 +37,17 @@ def tcplink(sock, addr):
 
         else:
             pass
+    except :
+        sock.close()
+        print('Connection from %s:%s closed.' % addr)
+    finally:
+        sock.close()
 
-    sock.close()
-    print('Connection from %s:%s closed.' % addr)
+
 
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind(('', 9999))
+s.bind(('', 8080))
 s.listen(5) # 可同时监听的客户端数量
 print('Waiting for connection...')
 while True:
