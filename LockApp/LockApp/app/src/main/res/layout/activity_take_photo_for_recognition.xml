@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".OpenLockByCameraActivity">
+
+    <Button
+        android:id="@+id/bt_take_photo_for_recognition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="161dp"
+        android:layout_marginLeft="161dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="162dp"
+        android:layout_marginRight="162dp"
+        android:onClick="takePhototFunction"
+        android:text="@string/Button_Camera_for_Recongtion"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/img_show_photo"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="141dp"
+        android:layout_marginLeft="141dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="142dp"
+        android:layout_marginRight="142dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bt_take_photo_for_recognition"
+        tools:srcCompat="@tools:sample/avatars"
+        android:background="@drawable/shape_border"
+        android:padding="1dp"/>
+
+    <TextView
+        android:id="@+id/tv_show_detail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:gravity="center_horizontal|center_vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_show_photo" />
+
+    <Button
+        android:id="@+id/bt_setMqtt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="162dp"
+        android:layout_marginLeft="162dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="161dp"
+        android:layout_marginRight="161dp"
+        android:onClick="openLockFunc"
+        android:text="@string/Button_SetMqtt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_show_detail" />
+</androidx.constraintlayout.widget.ConstraintLayout>

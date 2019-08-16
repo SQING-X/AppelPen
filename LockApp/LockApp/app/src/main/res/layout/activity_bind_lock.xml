@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BindLockActivity">
+
+    <ImageView
+        android:id="@+id/img_bindlock_logo"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_marginStart="125dp"
+        android:layout_marginLeft="125dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="126dp"
+        android:layout_marginRight="126dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/bindlock" />
+
+    <EditText
+        android:id="@+id/et_lockid_for_bindlock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="99dp"
+        android:layout_marginLeft="99dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="99dp"
+        android:layout_marginRight="99dp"
+        android:ems="10"
+        android:hint="请输入锁的ID"
+        android:inputType="textPersonName"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_bindlock_logo" />
+
+    <Button
+        android:id="@+id/bt_scan_get_lockid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="161dp"
+        android:layout_marginLeft="161dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="162dp"
+        android:layout_marginRight="162dp"
+        android:onClick="getLockidByScan"
+        android:text="@string/Button_Scan_Get_Lockid"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_lockid_for_bindlock" />
+
+    <Button
+        android:id="@+id/bt_bind_lock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="32dp"
+        android:onClick="bindLockFunction"
+        android:text="@string/Button_BindLock"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bt_scan_get_lockid" />
+
+    <Button
+        android:id="@+id/bt_giveup_bindlock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="66dp"
+        android:layout_marginRight="66dp"
+        android:onClick="giveupBindLock"
+        android:text="@string/Button_Giveup_BindLock"
+        app:layout_constraintBottom_toBottomOf="@+id/bt_bind_lock"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/bt_bind_lock" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

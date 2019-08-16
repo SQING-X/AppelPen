@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/img_face"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="32dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars"
+        android:background="@drawable/shape_border"
+        android:padding="1dp"/>
+
+    <TextView
+        android:id="@+id/tv_state_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:text="用户名:"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/img_face"
+        app:layout_constraintTop_toTopOf="@+id/img_face" />
+
+    <TextView
+        android:id="@+id/tv_display_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_state_username"
+        app:layout_constraintStart_toEndOf="@+id/tv_state_username" />
+
+    <TextView
+        android:id="@+id/tv_state_lockname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="已绑锁："
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/tv_state_username"
+        app:layout_constraintTop_toBottomOf="@+id/tv_state_username" />
+
+    <TextView
+        android:id="@+id/tv_display_lockname"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:maxLength="8"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_state_lockname"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_state_lockname" />
+
+    <Button
+        android:id="@+id/bt_bind_lock_request"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:background="#1D6EAF"
+        android:onClick="bindLockRequest"
+        android:text="@string/Button_Bind_Lock_Request"
+        android:textColor="@color/defaultColor"
+        app:layout_constraintStart_toStartOf="@+id/imgbt_require_open_lock"
+        app:layout_constraintTop_toBottomOf="@+id/img_face" />
+
+    <ImageButton
+        android:id="@+id/imgbt_require_open_lock"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="32dp"
+        android:onClick="requestOpenLock"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bt_bind_lock_request"
+        app:srcCompat="@drawable/openlock" />
+
+    <ImageButton
+        android:id="@+id/imgbt_scan_open_lock"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginRight="70dp"
+        android:onClick="scanOpenLock"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="@+id/imgbt_require_open_lock"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imgbt_require_open_lock"
+        app:srcCompat="@drawable/scancode" />
+
+    <TextView
+        android:id="@+id/tv_state_bt_require"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="申请开锁"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/imgbt_require_open_lock"
+        app:layout_constraintStart_toStartOf="@+id/imgbt_require_open_lock"
+        app:layout_constraintTop_toBottomOf="@+id/imgbt_require_open_lock" />
+
+    <TextView
+        android:id="@+id/tv_state_bt_scan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="扫码开锁"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/imgbt_scan_open_lock"
+        app:layout_constraintStart_toStartOf="@+id/imgbt_scan_open_lock"
+        app:layout_constraintTop_toBottomOf="@+id/imgbt_scan_open_lock" />
+
+    <Button
+        android:id="@+id/bt_exit_login"
+        style="@android:style/Widget.Material.Button.Toggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:onClick="exitLogin"
+        android:text="@string/Button_Exit_Login"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_state_bt_require" />
+
+    <Button
+        android:id="@+id/bt_bind_face"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#1F6FB0"
+        android:onClick="bindFace"
+        android:text="@string/Button_Bind_face"
+        android:textColor="@color/defaultColor"
+        android:textSize="14sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/bt_bind_lock_request"
+        app:layout_constraintEnd_toEndOf="@+id/imgbt_scan_open_lock" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

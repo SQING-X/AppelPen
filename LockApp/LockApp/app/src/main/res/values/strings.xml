@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">开锁</string>
+    <string name="Button_to_Login">登录</string>
+    <string name="Button_to_Register">注册</string>
+    <string name="Button_Regist">注册</string>
+    <string name="Button_Giveup_Regist">放弃注册</string>
+    <string name="Button_Camera_For_Regist">拍照</string>
+    <string name="Button_Bind_Lock_Request">申请绑锁</string>
+    <string name="Button_Exit_Login">退出登录</string>
+    <string name="Button_BindLock">绑定</string>
+    <string name="Button_Giveup_BindLock">返回</string>
+    <string name="Button_Camera_for_Recongtion">拍照</string>
+    <string name="Button_SetMqtt">解锁</string>
+    <string name="Button_Scan_QRCode">扫码</string>
+    <string name="Button_Exit_Scan_QRCode">退出扫码</string>
+    <string name="Button_Scan_Get_Lockid">扫码获取设备码</string>
+    <string name="Button_Bind_face">绑定头像</string>
+    <string name="Button_Exit_App">退出</string>
+</resources>

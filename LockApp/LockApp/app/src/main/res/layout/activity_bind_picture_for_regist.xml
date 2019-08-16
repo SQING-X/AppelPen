@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BindPictureForRegistActivity">
+
+    <Button
+        android:id="@+id/bt_take_photo_for_bind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="161dp"
+        android:layout_marginLeft="161dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="162dp"
+        android:layout_marginRight="162dp"
+        android:onClick="takePhoto"
+        android:text="@string/Button_Camera_For_Regist"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/img_show_picture"
+        android:layout_width="106dp"
+        android:layout_height="106dp"
+        android:layout_marginStart="152dp"
+        android:layout_marginLeft="152dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="153dp"
+        android:layout_marginRight="153dp"
+        android:background="@drawable/shape_border"
+        android:padding="1dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bt_take_photo_for_bind" />
+
+    <TextView
+        android:id="@+id/tv_show_photo_path"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:gravity="center_horizontal|center_vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_show_picture" />
+</androidx.constraintlayout.widget.ConstraintLayout>
